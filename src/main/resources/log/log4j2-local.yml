@@ -1,0 +1,64 @@
+Configuration:
+  name: Default
+  status: info
+
+  Properties:
+    Property:
+      name: log-path
+      value: "logs"
+
+  Appenders:
+    Console:
+      name: Console_Appender
+      target: SYSTEM_OUT
+      PatternLayout:
+        pattern: "%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{cyan} %highlight{[%-5p]}{FATAL=bg_red,
+            ERROR=red, INFO=green, DEBUG=blue, TRACE=bg_yellow} %style{[%t]}{yellow} [%C] %clr{%-40.40logger{39}}{cyan} %clr{:}{faint} %msg%n"
+
+    RollingFile:
+      - name: RollingFile_Appender
+        fileName: ${log-path}/spring-boot-logger-log4j2.log
+        filePattern: "logs/archive/spring-boot-logger-log4j2-%d{yyyy-MM-dd}_%i.log"
+        PatternLayout:
+          pattern: "%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{cyan} %highlight{[%-5p]}{FATAL=bg_red,
+            ERROR=red, INFO=green, DEBUG=blue, TRACE=bg_yellow} %style{[%t]}{yellow} [%C] %clr{%-40.40logger{39}}{cyan} %clr{:}{faint} %msg%n"
+        Policies:
+          TimeBasedTriggeringPolicy:
+            Interval: 1
+            modulate: true
+          SizeBasedTriggeringPolicy:
+            size: 1 KB
+        DefaultRollOverStrategy:
+          max: 30
+          Delete:
+            basePath: "${log-path}/archive"
+            maxDepth: "1"
+            IfLastModified:
+              age: "P14D"
+            IfAccumulatedFileCount:
+              exceeds: 140
+  Loggers:
+    Root:
+      level: info
+      AppenderRef:
+        - ref: Console_Appender
+        - ref: RollingFile_Appender
+    Logger:
+      - name: org.springframework
+        additivity: false
+        level: info
+        AppenderRef:
+          - ref: Console_Appender
+          - ref: RollingFile_Appender
+      - name : jdbc
+        additivity: false
+        level: info
+        AppenderRef:
+          - ref: Console_Appender
+          - ref: RollingFile_Appender
+      - name: org.apache.commons.digester
+        additivity: false
+        level: info
+        AppenderRef:
+          - ref: Console_Appender
+          - ref: RollingFile_Appender
