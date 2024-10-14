@@ -1,18 +1,28 @@
 spring:
   config:
     location: local
+#    import: classpath:application-db-local.yml
 #  datasource:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://localhost:3306/survey?autoReconnect=true
 #    username: dev_survey
 #    password: devsurvey12345
 #  jpa:
+#    open-in-view: true
 #    hibernate:
-#      ddl-auto: validate
-#    generate-ddl: false
+#      ddl-auto: create-drop
+##      ddl-auto: validate
 #    show-sql: true
+#    properties:
+#      hibernate.format_sql: true
+#      dialect: org.hibernate.dialect.MySQL8Dialect
+#    defer-datasource-initialization: true
+#    database: mysql
+#    generate-ddl: false
+
   data:
     mongodb:
       uri: mongodb://localhost:27017/local
 logging:
   config: classpath:log/log4j2-local.yml
+
